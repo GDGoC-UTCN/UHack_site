@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 import { useApp } from '../context/AppContext'
+import { useConfig } from '../context/ConfigContext'
 import { t } from '../i18n'
 import styles from './FAQ.module.css'
 
@@ -27,6 +28,7 @@ function FAQItem({ q, a }) {
 
 export default function FAQ() {
   const { lang } = useApp()
+  const { config } = useConfig()
   const tr = t[lang].faq
   return (
     <section className="section" id="faq">
@@ -36,7 +38,7 @@ export default function FAQ() {
           <h2>{tr.title}</h2>
         </Reveal>
         <div className={styles.list}>
-          {tr.items.map(f => <FAQItem key={f.q} q={f.q} a={f.a} />)}
+          {(config.faq ? config.faq.map(item => ({ question: lang==='ro' ? item.questionRO : item.questionEN, answer: lang==='ro' ? item.answerRO : item.answerEN })) : tr.items).map(f => <FAQItem key={f.q} q={f.q} a={f.a} />)}
         </div>
       </div>
     </section>

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 import { useApp } from '../context/AppContext'
+import { useConfig } from '../context/ConfigContext'
 import { t } from '../i18n'
 import styles from './Timeline.module.css'
 
@@ -15,8 +16,15 @@ const DAY_EMOJIS = { vineri: '🌙', sambata: '⚡', duminica: '🏆' }
 export default function Timeline() {
   const [activeDay, setActiveDay] = useState('vineri')
   const { lang } = useApp()
+  const { config } = useConfig()
   const tr = t[lang].timeline
-  const events = tr.events[activeDay]
+  // Use config schedule if available, fallback to i18n
+  const rawEvents = (config.schedule && config.schedule[activeDay]) || tr.events[activeDay]
+  const events = rawEvents.map(ev => ({
+    ...ev,
+    title: ev.title || (lang === 'ro' ? ev.titleRO : ev.titleEN) || '',
+    desc:  ev.desc  || (lang === 'ro' ? ev.descRO  : ev.descEN)  || '',
+  }))
 
   return (
     <section className="section section-dark" id="detalii">

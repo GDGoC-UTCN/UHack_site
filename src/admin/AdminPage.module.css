@@ -1,0 +1,228 @@
+.adminRoot {
+  min-height: 100vh;
+  background: #0d0d0d;
+  color: #f0f0f0;
+  font-family: 'Space Grotesk', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Login ─── */
+.loginWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #0d0d0d;
+}
+.loginCard {
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 3rem 2.5rem;
+  width: 360px;
+  text-align: center;
+}
+.loginCard h1 { font-size: 1.6rem; margin-bottom: .4rem; }
+.loginCard p  { color: #888; font-size: .9rem; margin-bottom: 2rem; }
+.loginCard input {
+  width: 100%; padding: .75rem 1rem;
+  background: #111; border: 1px solid #333; border-radius: 8px;
+  color: #f0f0f0; font-family: inherit; font-size: 1rem;
+  margin-bottom: 1rem;
+}
+.loginCard input:focus { outline: none; border-color: #a78bfa; }
+.loginCard button {
+  width: 100%; padding: .75rem;
+  background: #a78bfa; border: none; border-radius: 8px;
+  color: #000; font-weight: 700; font-size: 1rem; cursor: pointer;
+}
+.loginCard button:hover { background: #c4b5fd; }
+.loginErr { color: #f87171; font-size: .85rem; margin-top: .5rem; }
+
+/* ── Header ─── */
+.header {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1rem 2rem; background: #111;
+  border-bottom: 1px solid #222; flex-shrink: 0;
+}
+.header h1 { font-size: 1.3rem; flex: 1; }
+.headerActions { display: flex; gap: .5rem; }
+.btnSecondary {
+  padding: .5rem 1rem; border-radius: 6px;
+  background: #1e1e1e; border: 1px solid #333;
+  color: #ccc; cursor: pointer; font-size: .85rem; font-family: inherit;
+}
+.btnSecondary:hover { border-color: #a78bfa; color: #a78bfa; }
+.btnDanger {
+  padding: .5rem 1rem; border-radius: 6px;
+  background: transparent; border: 1px solid #ef4444;
+  color: #ef4444; cursor: pointer; font-size: .85rem; font-family: inherit;
+}
+.btnDanger:hover { background: #ef4444; color: #fff; }
+.btnPrimary {
+  padding: .5rem 1rem; border-radius: 6px;
+  background: #a78bfa; border: none;
+  color: #000; cursor: pointer; font-size: .85rem;
+  font-family: inherit; font-weight: 700;
+}
+.btnPrimary:hover { background: #c4b5fd; }
+.btnLogout {
+  padding: .5rem 1rem; border-radius: 6px;
+  background: transparent; border: 1px solid #555;
+  color: #888; cursor: pointer; font-size: .85rem; font-family: inherit;
+  margin-left: auto;
+}
+.btnLogout:hover { border-color: #888; color: #fff; }
+
+/* ── Layout ─── */
+.body { display: flex; flex: 1; overflow: hidden; height: calc(100vh - 62px); }
+
+.sidebar {
+  width: 200px; flex-shrink: 0;
+  background: #111; border-right: 1px solid #222;
+  padding: 1.5rem 0; overflow-y: auto;
+}
+.sideTab {
+  display: block; width: 100%; padding: .75rem 1.5rem;
+  background: none; border: none;
+  text-align: left; color: #888; cursor: pointer;
+  font-family: inherit; font-size: .9rem;
+  border-left: 3px solid transparent;
+  transition: all .15s;
+}
+.sideTab:hover { color: #f0f0f0; background: #1a1a1a; }
+.sideTabActive { color: #a78bfa !important; border-left-color: #a78bfa !important; background: #1a1a1a !important; }
+
+.content { flex: 1; overflow-y: auto; padding: 2rem; }
+
+/* ── Sections ─── */
+.sectionTitle { font-size: 1.3rem; font-weight: 700; margin-bottom: 1.5rem; }
+
+.formGrid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem;
+  max-width: 800px;
+}
+.formFull { grid-column: 1 / -1; }
+
+.field { display: flex; flex-direction: column; gap: .4rem; }
+.field label { font-size: .8rem; color: #888; text-transform: uppercase; letter-spacing: .05em; }
+.field input, .field textarea, .field select {
+  padding: .65rem .9rem; background: #1a1a1a; border: 1px solid #333;
+  border-radius: 8px; color: #f0f0f0; font-family: inherit; font-size: .95rem;
+}
+.field input:focus, .field textarea:focus, .field select:focus {
+  outline: none; border-color: #a78bfa;
+}
+.field textarea { resize: vertical; min-height: 80px; }
+
+.toggleRow {
+  display: flex; align-items: center; gap: 1rem;
+  padding: .75rem 1rem; background: #1a1a1a;
+  border: 1px solid #333; border-radius: 8px;
+  grid-column: 1 / -1; max-width: 800px;
+}
+.toggleRow label { flex: 1; }
+.toggle { position: relative; width: 46px; height: 24px; flex-shrink: 0; }
+.toggle input { opacity: 0; width: 0; height: 0; }
+.toggleSlider {
+  position: absolute; cursor: pointer; inset: 0;
+  background: #333; border-radius: 24px; transition: .2s;
+}
+.toggleSlider::before {
+  content: ''; position: absolute;
+  width: 18px; height: 18px; left: 3px; bottom: 3px;
+  background: #888; border-radius: 50%; transition: .2s;
+}
+.toggle input:checked + .toggleSlider { background: #a78bfa; }
+.toggle input:checked + .toggleSlider::before { transform: translateX(22px); background: #fff; }
+
+/* ── Day tabs ─── */
+.dayTabs { display: flex; gap: .5rem; margin-bottom: 1.5rem; }
+.dayTab {
+  padding: .5rem 1.2rem; border-radius: 6px;
+  background: #1a1a1a; border: 1px solid #333;
+  color: #888; cursor: pointer; font-family: inherit;
+}
+.dayTab:hover { border-color: #a78bfa; color: #a78bfa; }
+.dayTabActive { background: #a78bfa !important; border-color: #a78bfa !important; color: #000 !important; font-weight: 700; }
+
+/* ── Event card ─── */
+.eventCard {
+  background: #1a1a1a; border: 1px solid #2a2a2a;
+  border-radius: 10px; padding: 1rem 1.2rem;
+  margin-bottom: .8rem;
+}
+.eventCardHead {
+  display: flex; align-items: center; gap: .8rem;
+  margin-bottom: .8rem;
+}
+.eventTime {
+  font-family: 'Space Mono', monospace;
+  color: #a78bfa; font-size: .9rem; min-width: 45px;
+}
+.eventTitle { flex: 1; font-weight: 600; }
+.eventType {
+  font-size: .75rem; padding: .2rem .6rem;
+  border-radius: 4px; background: #111; color: #888;
+}
+.eventCardGrid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: .8rem;
+  margin-bottom: .8rem;
+}
+.eventCardActions { display: flex; justify-content: flex-end; gap: .5rem; margin-top: .5rem; }
+.btnRemove {
+  padding: .35rem .8rem; border-radius: 5px;
+  background: transparent; border: 1px solid #ef4444;
+  color: #ef4444; cursor: pointer; font-size: .8rem; font-family: inherit;
+}
+.btnRemove:hover { background: #ef4444; color: #fff; }
+.btnAdd {
+  padding: .6rem 1.2rem; border-radius: 8px;
+  background: transparent; border: 1px dashed #555;
+  color: #888; cursor: pointer; font-family: inherit; font-size: .9rem;
+  width: 100%; margin-top: .5rem;
+}
+.btnAdd:hover { border-color: #a78bfa; color: #a78bfa; }
+
+/* ── Theme card ─── */
+.themeCard {
+  background: #1a1a1a; border: 1px solid #2a2a2a;
+  border-radius: 10px; padding: 1.2rem 1.4rem; margin-bottom: 1.2rem;
+}
+.themeCardHead { display: flex; align-items: center; gap: .8rem; margin-bottom: 1rem; }
+.themeNum { font-size: 1.5rem; font-weight: 700; color: #555; }
+.themeGrid { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; }
+
+.bulletList { display: flex; flex-direction: column; gap: .4rem; }
+.bulletRow { display: flex; gap: .4rem; align-items: center; }
+.bulletRow input { flex: 1; padding: .5rem .75rem; background: #111; border: 1px solid #2a2a2a; border-radius: 6px; color: #f0f0f0; font-family: inherit; }
+.bulletRow input:focus { outline: none; border-color: #a78bfa; }
+.bulletDel {
+  padding: .3rem .6rem; border-radius: 5px;
+  background: transparent; border: 1px solid #333;
+  color: #555; cursor: pointer; font-family: inherit;
+}
+.bulletDel:hover { border-color: #ef4444; color: #ef4444; }
+
+/* ── Lists (FAQ / Prizes / Rules) ─── */
+.listCard {
+  background: #1a1a1a; border: 1px solid #2a2a2a;
+  border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: .8rem;
+}
+.listCardGrid { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; margin-bottom: .6rem; }
+.listCardFull { grid-column: 1/-1; }
+
+/* ── Save toast ─── */
+.toast {
+  position: fixed; bottom: 2rem; right: 2rem;
+  background: #22c55e; color: #000;
+  padding: .75rem 1.4rem; border-radius: 8px;
+  font-weight: 700; font-size: .9rem;
+  animation: fadeToast .3s ease;
+  z-index: 9999;
+}
+@keyframes fadeToast {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

@@ -1,5 +1,6 @@
 import { useScrollReveal } from '../hooks/useScrollReveal'
 import { useApp } from '../context/AppContext'
+import { useConfig } from '../context/ConfigContext'
 import { t } from '../i18n'
 import styles from './Tracks.module.css'
 
@@ -10,6 +11,7 @@ function Reveal({ children, className = '' }) {
 
 export default function Tracks() {
   const { lang } = useApp()
+  const { config } = useConfig()
   const tr = t[lang].tracks
 
   return (
@@ -22,7 +24,7 @@ export default function Tracks() {
         </Reveal>
 
         <div className={styles.grid}>
-          {tr.themes.map((theme) => (
+          {(config.themes ? config.themes.map(th => ({ ...th, title: lang==='ro' ? th.titleRO : th.titleEN, tagline: lang==='ro' ? th.taglineRO : th.taglineEN, desc: lang==='ro' ? th.descRO : th.descEN, bullets: lang==='ro' ? th.bulletsRO : th.bulletsEN })) : tr.themes).map((theme) => (
             <Reveal key={theme.number} className={styles.card}>
               <div className={styles.cardInner} style={{ '--accent': theme.color }}>
                 <div className={styles.cardTop}>

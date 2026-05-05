@@ -1,12 +1,16 @@
 import { useCountdown } from '../hooks/useCountdown'
+import { useConfig } from '../context/ConfigContext'
 import { useApp } from '../context/AppContext'
 import { t } from '../i18n'
 import styles from './Hero.module.css'
 
 export default function Hero() {
   const { lang } = useApp()
+  const { config } = useConfig()
   const tr = t[lang].hero
-  const { days, hours, mins, secs, ended } = useCountdown('2026-04-24T14:00:00')
+  const { days, hours, mins, secs, ended } = useCountdown(
+    config.general.countdownTarget || '2026-04-24T17:30:00'
+  )
 
   const scrollTo = (e, href) => {
     e.preventDefault()

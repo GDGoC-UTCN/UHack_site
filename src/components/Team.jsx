@@ -1,5 +1,6 @@
 import { useScrollReveal } from '../hooks/useScrollReveal'
 import { useApp } from '../context/AppContext'
+import { useConfig } from '../context/ConfigContext'
 import { t } from '../i18n'
 import styles from './Team.module.css'
 
@@ -33,6 +34,7 @@ function MemberCard({ name, role, initials, img }) {
 
 export default function Team() {
   const { lang } = useApp()
+  const { config } = useConfig()
   const tr = t[lang].team
   return (
     <section className="section section-dark" id="echipa">
@@ -42,7 +44,7 @@ export default function Team() {
           <h2>{tr.title}</h2>
         </Reveal>
         <div className={styles.grid}>
-          {members.map(m => <MemberCard key={m.name} {...m} />)}
+          {(config.team || members).map(m => <MemberCard key={m.name || m.id} name={m.name} role={m.role} initials={m.initials} img={m.img} />)}
           <Reveal className={`${styles.card} ${styles.volunteers}`}>
             <div className={`${styles.avatar} ${styles.avatarGroup}`}>
               <span>{tr.volunteerCount}</span>
