@@ -1,4 +1,6 @@
 import { useCounter } from '../hooks/useCounter'
+import { useApp } from '../context/AppContext'
+import { t } from '../i18n'
 import styles from './StatsBar.module.css'
 
 function StatItem({ target, unit, label }) {
@@ -15,15 +17,17 @@ function StatItem({ target, unit, label }) {
 }
 
 export default function StatsBar() {
+  const { lang } = useApp()
+  const tr = t[lang].stats
   return (
     <section className={styles.bar}>
-      <StatItem target={48} unit="h" label="Hackathon" />
+      <StatItem target={48}  unit="h"  label={tr.durationLabel} />
       <div className={styles.divider} />
-      <StatItem target={120} unit="+" label="Participanți" />
+      <StatItem target={120} unit="+"  label={tr.participantsLabel} />
       <div className={styles.divider} />
-      <StatItem target={24} unit="" label="Echipe" />
+      <StatItem target={24}  unit=""   label={tr.teamsLabel} />
       <div className={styles.divider} />
-      <StatItem target={1} unit="st" label="în România" />
+      <StatItem target={1}   unit="st" label={tr.firstLabel} />
     </section>
   )
 }

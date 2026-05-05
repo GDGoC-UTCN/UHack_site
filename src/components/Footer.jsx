@@ -1,13 +1,8 @@
+import { useApp } from '../context/AppContext'
+import { t } from '../i18n'
 import styles from './Footer.module.css'
 
-const navLinks = [
-  { href: '#despre', label: 'Despre' },
-  { href: '#detalii', label: 'Program' },
-  { href: '#galerie', label: 'Galerie' },
-  { href: '#parteneri', label: 'Parteneri' },
-  { href: '#echipa', label: 'Echipă' },
-  { href: '#inscriere', label: 'Înregistrare' },
-]
+const NAV_HREFS = ['#despre', '#detalii', '#teme', '#submit', '#galerie', '#parteneri', '#echipa', '#faq']
 
 const scrollTo = (e, href) => {
   e.preventDefault()
@@ -16,6 +11,8 @@ const scrollTo = (e, href) => {
 }
 
 export default function Footer() {
+  const { lang } = useApp()
+  const tr = t[lang].footer
   return (
     <footer className={styles.footer}>
       <div className={styles.inner}>
@@ -25,22 +22,23 @@ export default function Footer() {
             <span className={styles.logoHack}>HACK!</span>
           </div>
           <p>Code in Black &amp; White</p>
-          <p className={styles.date}>24 – 26 Aprilie 2026 · Cluj-Napoca</p>
+          <p className={styles.tagline}>{tr.tagline}</p>
+          <p className={styles.date}>{lang === 'ro' ? '24 – 26 Aprilie 2026 · Cluj-Napoca' : 'April 24–26, 2026 · Cluj-Napoca'}</p>
         </div>
 
         <div className={styles.links}>
-          <h4>Navigare</h4>
+          <h4>{lang === 'ro' ? 'Navigare' : 'Navigation'}</h4>
           <ul>
-            {navLinks.map(l => (
-              <li key={l.href}>
-                <a href={l.href} onClick={(e) => scrollTo(e, l.href)}>{l.label}</a>
+            {tr.links.map((label, i) => (
+              <li key={NAV_HREFS[i]}>
+                <a href={NAV_HREFS[i]} onClick={(e) => scrollTo(e, NAV_HREFS[i])}>{label}</a>
               </li>
             ))}
           </ul>
         </div>
 
         <div className={styles.contact}>
-          <h4>Contact</h4>
+          <h4>{tr.contact}</h4>
           <a href="mailto:gdgoc.utcn@gmail.com">gdgoc.utcn@gmail.com</a>
           <div className={styles.social}>
             <a href="https://www.instagram.com/gdgoc.utcn/" target="_blank" rel="noopener noreferrer" className={styles.socialBtn} aria-label="Instagram">
@@ -57,8 +55,8 @@ export default function Footer() {
       </div>
 
       <div className={styles.bottom}>
-        <p>© 2026 GDGoC UTCN × FC "U" Cluj · Toate drepturile rezervate</p>
-        <p>Made with ♥ in Cluj-Napoca</p>
+        <p>© 2026 GDGoC UTCN × FC "U" Cluj · {tr.rights}</p>
+        <p>{tr.madeBy}</p>
       </div>
     </footer>
   )

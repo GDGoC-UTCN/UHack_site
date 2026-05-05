@@ -1,7 +1,11 @@
 import { useCountdown } from '../hooks/useCountdown'
+import { useApp } from '../context/AppContext'
+import { t } from '../i18n'
 import styles from './Hero.module.css'
 
 export default function Hero() {
+  const { lang } = useApp()
+  const tr = t[lang].hero
   const { days, hours, mins, secs, ended } = useCountdown('2026-04-24T14:00:00')
 
   const scrollTo = (e, href) => {
@@ -18,43 +22,37 @@ export default function Hero() {
       </div>
 
       <div className={styles.content}>
-        <div className={styles.badge}>24 – 26 Aprilie 2026 · Cluj-Napoca</div>
-
+        <div className={styles.badge}>{tr.tag}</div>
         <h1 className={styles.title}>
-          <span className={styles.titleQuote}>"U"</span>
-          <span className={styles.titleMain}>HACK!</span>
+          <span className={styles.titleQuote}>{tr.title1}</span>
+          <span className={styles.titleMain}>{tr.title2}</span>
           <span className={styles.titleSub}>
             Code in Black <span className={styles.amp}>&amp;</span> White
           </span>
         </h1>
 
-        <p className={styles.desc}>
-          Prima colaborare din România între un club de fotbal de performanță și o
-          comunitate tech universitară.
-          <br />
-          <strong>48 de ore · 120 de studenți · soluții reale</strong>
-        </p>
+        <p className={styles.desc}>{tr.subtitle}</p>
 
         <div className={styles.actions}>
           <a href="#inscriere" className="btn btn-primary" onClick={(e) => scrollTo(e, '#inscriere')}>
-            Înscrie-te acum
+            {tr.cta1}
           </a>
           <a href="#despre" className="btn btn-outline" onClick={(e) => scrollTo(e, '#despre')}>
-            Află mai mult
+            {tr.cta2}
           </a>
         </div>
       </div>
 
       <div className={styles.countdownWrap}>
         <div className={styles.countdownLabel}>
-          {ended ? '🎉 Evenimentul este în desfășurare!' : 'Timp până la eveniment'}
+          {ended ? tr.ended : (lang === 'ro' ? 'Timp până la eveniment' : 'Time until event')}
         </div>
         <div className={styles.countdown}>
           {[
-            { val: days, label: 'Zile' },
-            { val: hours, label: 'Ore' },
-            { val: mins, label: 'Minute' },
-            { val: secs, label: 'Secunde' },
+            { val: days,  label: tr.days },
+            { val: hours, label: tr.hours },
+            { val: mins,  label: tr.mins },
+            { val: secs,  label: tr.secs },
           ].map((item, i) => (
             <>
               <div className={styles.cdBlock} key={item.label}>

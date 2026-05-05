@@ -1,19 +1,23 @@
 import { useState, useEffect } from 'react'
+import { useApp } from '../context/AppContext'
+import { t } from '../i18n'
 import styles from './Navbar.module.css'
 
-const links = [
-  { href: '#despre', label: 'Despre' },
-  { href: '#detalii', label: 'Program' },
-  { href: '#teme', label: 'Teme' },
-  { href: '#submit', label: 'Submit' },
-  { href: '#galerie', label: 'Galerie' },
-  { href: '#parteneri', label: 'Parteneri' },
-  { href: '#echipa', label: 'Echipă' },
-]
-
 export default function Navbar() {
+  const { theme, toggleTheme, lang, toggleLang } = useApp()
+  const tr = t[lang].nav
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+
+  const links = [
+    { href: '#despre',    label: tr.despre },
+    { href: '#detalii',   label: tr.program },
+    { href: '#teme',      label: tr.teme },
+    { href: '#submit',    label: tr.submit },
+    { href: '#galerie',   label: tr.galerie },
+    { href: '#parteneri', label: tr.parteneri },
+    { href: '#echipa',    label: tr.echipa },
+  ]
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60)
@@ -21,7 +25,6 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Close on resize to desktop
   useEffect(() => {
     const onResize = () => { if (window.innerWidth > 768) setOpen(false) }
     window.addEventListener('resize', onResize)
@@ -60,18 +63,44 @@ export default function Navbar() {
               className={styles.cta}
               onClick={(e) => handleNavClick(e, '#inscriere')}
             >
-              Înscrie-te
+              {tr.inscrieTE}
             </a>
           </li>
         </ul>
 
-        <button
-          className={`${styles.burger} ${open ? styles.burgerOpen : ''}`}
-          onClick={() => setOpen(o => !o)}
-          aria-label="Meniu"
-        >
-          <span /><span /><span />
-        </button>
+        {/* Controls: lang + theme + burger */}
+        <div className={styles.controls}>
+          {/* Language toggle */}
+          <button
+            className={styles.toggleBtn}
+            onClick={toggleLang}
+            aria-label="Schimbă limba / Change language"
+            title={lang === 'ro' ? 'Switch to English' : 'Schimbă în Română'}
+          >
+            <span className={`${styles.langOption} ${lang === 'ro' ? styles.langActive : ''}`}>RO</span>
+            <span className={styles.langSep}>/</span>
+            <span className={`${styles.langOption} ${lang === 'en' ? styles.langActive : ''}`}>EN</span>
+          </button>
+
+          {/* Theme toggle */}
+          <button
+            className={`${styles.toggleBtn} ${styles.themeBtn}`}
+            onClick={toggleTheme}
+            aria-label="Schimbă tema / Toggle theme"
+            title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
+          >
+            {theme === 'dark' ? '☀️' : '🌙'}
+          </button>
+
+          {/* Burger */}
+          <button
+            className={`${styles.burger} ${open ? styles.burgerOpen : ''}`}
+            onClick={() => setOpen(o => !o)}
+            aria-label="Meniu"
+          >
+            <span /><span /><span />
+          </button>
+        </div>
       </div>
     </nav>
   )

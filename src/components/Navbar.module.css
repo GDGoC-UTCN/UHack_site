@@ -89,3 +89,65 @@
   .links.open { display: flex; }
   .links a { font-size: 1.2rem; }
 }
+
+/* ── Controls (lang + theme + burger) ──────────────── */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.toggleBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--gray3);
+  border-radius: 99px;
+  background: transparent;
+  color: var(--gray3);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition: var(--trans);
+  white-space: nowrap;
+}
+
+.toggleBtn:hover {
+  border-color: var(--white);
+  color: var(--white);
+}
+
+.langOption {
+  opacity: 0.45;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  transition: opacity 0.2s;
+}
+
+.langActive {
+  opacity: 1;
+  color: var(--white);
+}
+
+.langSep {
+  opacity: 0.3;
+  font-size: 0.65rem;
+}
+
+.themeBtn {
+  font-size: 0.95rem;
+  padding: 0.3rem 0.5rem;
+}
+
+@media (max-width: 480px) {
+  .toggleBtn { padding: 0.25rem 0.45rem; font-size: 0.68rem; }
+}
+
+/* Light theme — mobile overlay stays dark for readability */
+:global([data-theme="light"]) .links.open {
+  background: rgba(30,30,30,0.97);
+}
+:global([data-theme="light"]) .links.open a {
+  color: #f5f5f5;
+}

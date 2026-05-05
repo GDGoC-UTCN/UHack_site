@@ -163,3 +163,51 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 @media (max-width: 768px) {
   :root { --section-pad: 64px; }
 }
+
+/* ══════════════════════════════════════════════════════
+   LIGHT THEME  —  [data-theme="light"]
+   ══════════════════════════════════════════════════════ */
+[data-theme="light"] {
+  --black:   #f0f0f0;
+  --black2:  #e4e4e4;
+  --black3:  #d8d8d8;
+  --gray1:   #c0c0c0;
+  --gray2:   #777777;
+  --gray3:   #444444;
+  --gray4:   #222222;
+  --white:   #111111;
+  --white2:  #000000;
+}
+
+[data-theme="light"] body {
+  background: #f0f0f0;
+  color: #111111;
+}
+
+[data-theme="light"] .section-dark {
+  background: #e4e4e4;
+}
+
+/* buttons stay readable */
+[data-theme="light"] .btn-primary {
+  background: #111111;
+  color: #f0f0f0;
+  border-color: #111111;
+}
+[data-theme="light"] .btn-primary:hover {
+  background: #333333;
+  border-color: #333333;
+}
+[data-theme="light"] .btn-outline {
+  border-color: #444444;
+  color: #111111;
+}
+[data-theme="light"] .btn-outline:hover {
+  background: #111111;
+  color: #f0f0f0;
+}
+
+/* lightbox stays dark */
+[data-theme="light"] .lightbox {
+  background: rgba(0,0,0,0.92);
+}

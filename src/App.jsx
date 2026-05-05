@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { AppProvider } from './context/AppContext'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import StatsBar from './components/StatsBar'
@@ -23,7 +24,7 @@ export default function App() {
   }, [])
 
   return (
-    <>
+    <AppProvider>
       <Navbar />
       <Hero />
       <StatsBar />
@@ -45,6 +46,6 @@ export default function App() {
       >
         ↑
       </button>
-    </>
+    </AppProvider>
   )
 }

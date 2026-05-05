@@ -1,4 +1,6 @@
 import { useScrollReveal } from '../hooks/useScrollReveal'
+import { useApp } from '../context/AppContext'
+import { t } from '../i18n'
 import styles from './Partners.module.css'
 
 function Reveal({ children, className = '' }) {
@@ -20,17 +22,18 @@ function PartnerLogo({ src, alt, fallback }) {
 }
 
 export default function Partners() {
+  const { lang } = useApp()
+  const tr = t[lang].partners
   return (
     <section className="section" id="parteneri">
       <div className="container">
         <Reveal className="section-header">
-          <span className="section-tag">// susținuți de</span>
-          <h2>Parteneri & Sponsori</h2>
+          <span className="section-tag">{tr.tag}</span>
+          <h2>{tr.title}</h2>
         </Reveal>
 
-        {/* Main organizers */}
         <Reveal className={styles.tier}>
-          <div className={styles.tierLabel}>Organizatori Principali</div>
+          <div className={styles.tierLabel}>{tr.tier1}</div>
           <div className={`${styles.row} ${styles.rowMain}`}>
             <div className={styles.partnerCard}>
               <PartnerLogo src="/assets/img/partners/ucluj.png" alt="FC Universitatea Cluj" fallback='FC "U" Cluj' />
@@ -44,9 +47,8 @@ export default function Partners() {
           </div>
         </Reveal>
 
-        {/* Supported by */}
         <Reveal className={styles.tier}>
-          <div className={styles.tierLabel}>Susținut de</div>
+          <div className={styles.tierLabel}>{tr.tier2}</div>
           <div className={styles.row}>
             <div className={styles.partnerCard}>
               <PartnerLogo src="/assets/img/partners/ucluj-site.png" alt="ucluj.ro" fallback="ucluj.ro" />
@@ -59,9 +61,8 @@ export default function Partners() {
           </div>
         </Reveal>
 
-        {/* Sponsors */}
         <Reveal className={styles.tier}>
-          <div className={styles.tierLabel}>Sponsori</div>
+          <div className={styles.tierLabel}>{tr.tier3}</div>
           <div className={styles.row}>
             {['Gold Sponsor', 'Silver Sponsor', 'Bronze Sponsor'].map(s => (
               <div className={styles.partnerCard} key={s}>
@@ -75,8 +76,8 @@ export default function Partners() {
         </Reveal>
 
         <Reveal className={styles.sponsorCta}>
-          <p>Vrei să devii partener al "U" Hack?</p>
-          <a href="mailto:gdgoc.utcn@gmail.com" className="btn btn-outline">Contactează-ne</a>
+          <p>{tr.sponsorDesc}</p>
+          <a href="mailto:gdgoc.utcn@gmail.com" className="btn btn-outline">{tr.sponsorCta}</a>
         </Reveal>
       </div>
     </section>

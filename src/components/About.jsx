@@ -1,4 +1,6 @@
 import { useScrollReveal } from '../hooks/useScrollReveal'
+import { useApp } from '../context/AppContext'
+import { t } from '../i18n'
 import styles from './About.module.css'
 
 function Reveal({ children, className = '' }) {
@@ -7,60 +9,34 @@ function Reveal({ children, className = '' }) {
 }
 
 export default function About() {
+  const { lang } = useApp()
+  const tr = t[lang].about
+
   return (
     <section className="section" id="despre">
       <div className="container">
         <Reveal className="section-header">
-          <span className="section-tag">// despre eveniment</span>
-          <h2>O Premieră Națională</h2>
+          <span className="section-tag">{tr.tag}</span>
+          <h2>{tr.title}</h2>
         </Reveal>
 
         <div className={styles.grid}>
           <Reveal className={styles.text}>
-            <p>
-              Pentru prima dată în România, <strong>FC Universitatea Cluj</strong> și{' '}
-              <strong>Google Developer Group on Campus UTCN</strong> își unesc forțele
-              în jurul unei viziuni comune: utilizarea tehnologiei pentru a dezvolta
-              sportul de performanță.
-            </p>
-            <p>
-              Timp de <strong>48 de ore</strong>, 120 de studenți vor construi soluții
-              reale pentru provocările tehnice și operaționale ale clubului. Ceea ce
-              diferențiază fundamental acest eveniment de hackathoanele clasice este
-              miza sa concretă: soluțiile nu rămân exerciții academice, ci pot fi{' '}
-              <strong>preluate și implementate efectiv</strong> de club.
-            </p>
-            <p>
-              Cluj-Napoca devine astfel <strong>primul oraș din România</strong> care
-              abordează utilizarea inteligenței artificiale ca instrument strategic
-              în managementul cluburilor sportive.
-            </p>
-            <div className={styles.tags}>
-              {['Inteligență Artificială', 'Sport de Performanță', 'Soluții Reale', '48h Non-Stop'].map(t => (
-                <span className={styles.tag} key={t}>{t}</span>
-              ))}
-            </div>
+            <p>{tr.p1}</p>
+            <p>{tr.p2}</p>
+            <p>{tr.p3}</p>
           </Reveal>
 
           <Reveal className={styles.visual}>
             <div className={styles.terminalCard}>
               <div className={styles.termHeader}>
                 <div className={styles.dots}><span /><span /><span /></div>
-                <span className={styles.termTitle}>uhack_mission.txt</span>
+                <span className={styles.termTitle}>{tr.terminalTitle}</span>
               </div>
               <div className={styles.termBody}>
-                {[
-                  ['theme', 'AI în Sport'],
-                  ['duration', '48 ore'],
-                  ['participants', '120 studenți'],
-                  ['teams', '24 echipe'],
-                  ['location', 'Cluj-Napoca'],
-                  ['date', '24-26 Apr 2026'],
-                  ['organizers', 'GDGoC UTCN × U Cluj'],
-                ].map(([k, v]) => (
-                  <p key={k}><span className={styles.key}>{k}</span> → {v}</p>
+                {tr.terminalLines.map((line, i) => (
+                  <p key={i}>{line}</p>
                 ))}
-                <p><span className={styles.key}>output</span> → <span className={styles.highlight}>Produse reale</span></p>
                 <p className={styles.cursor}><span className={styles.blink}>█</span></p>
               </div>
             </div>
