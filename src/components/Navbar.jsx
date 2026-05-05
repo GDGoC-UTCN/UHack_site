@@ -3,7 +3,9 @@ import styles from './Navbar.module.css'
 
 const links = [
   { href: '#despre', label: 'Despre' },
-  { href: '#detalii', label: 'Detalii' },
+  { href: '#detalii', label: 'Program' },
+  { href: '#teme', label: 'Teme' },
+  { href: '#submit', label: 'Submit' },
   { href: '#galerie', label: 'Galerie' },
   { href: '#parteneri', label: 'Parteneri' },
   { href: '#echipa', label: 'Echipă' },
