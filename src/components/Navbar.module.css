@@ -1,0 +1,91 @@
+.navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: 20px 0;
+  transition: background 0.3s ease, padding 0.3s ease;
+}
+.scrolled {
+  background: rgba(10,10,10,0.92);
+  backdrop-filter: blur(16px);
+  padding: 12px 0;
+  border-bottom: 1px solid var(--gray1);
+}
+.inner {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.logoU { color: var(--white); }
+.logoHack { color: var(--gray3); }
+
+.links {
+  display: flex;
+  list-style: none;
+  gap: 32px;
+  align-items: center;
+}
+.links a {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--gray4);
+  transition: color 0.3s ease;
+  letter-spacing: 0.03em;
+}
+.links a:hover { color: var(--white); }
+
+.cta {
+  padding: 8px 20px !important;
+  border: 1px solid var(--gray2) !important;
+  border-radius: var(--radius) !important;
+  transition: all 0.3s ease !important;
+}
+.cta:hover {
+  background: var(--white) !important;
+  color: var(--black) !important;
+  border-color: var(--white) !important;
+}
+
+.burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: 8px;
+  z-index: 1001;
+  position: relative;
+}
+.burger span {
+  display: block;
+  width: 24px; height: 2px;
+  background: var(--white);
+  transition: all 0.3s ease;
+}
+.burgerOpen span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.burgerOpen span:nth-child(2) { opacity: 0; }
+.burgerOpen span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 768px) {
+  .burger { display: flex; }
+  .links {
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(10,10,10,0.98);
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+    z-index: 999;
+  }
+  .links.open { display: flex; }
+  .links a { font-size: 1.2rem; }
+}

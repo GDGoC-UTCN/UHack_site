@@ -1,0 +1,174 @@
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  padding: 120px 24px 60px;
+}
+.bg { position: absolute; inset: 0; background: var(--black); }
+.grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: gridPulse 8s ease-in-out infinite;
+}
+@keyframes gridPulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+.noise {
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.content { position: relative; z-index: 2; max-width: 900px; }
+
+.badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  color: var(--gray3);
+  border: 1px solid var(--gray1);
+  padding: 8px 20px;
+  border-radius: 100px;
+  margin-bottom: 32px;
+  animation: fadeUp 0.8s ease both;
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.0;
+  margin-bottom: 28px;
+  animation: fadeUp 0.8s ease 0.15s both;
+}
+.titleQuote {
+  font-family: var(--font-mono);
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  color: var(--gray3);
+  font-weight: 400;
+}
+.titleMain {
+  font-size: clamp(5rem, 15vw, 11rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+  background: linear-gradient(180deg, #ffffff 0%, #888888 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.titleSub {
+  font-size: clamp(1rem, 2.5vw, 1.6rem);
+  color: var(--gray4);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  margin-top: 8px;
+}
+.amp { color: var(--white); -webkit-text-fill-color: var(--white); }
+
+.desc {
+  color: var(--gray3);
+  font-size: 1.05rem;
+  max-width: 600px;
+  margin: 0 auto 40px;
+  animation: fadeUp 0.8s ease 0.3s both;
+}
+.desc strong { color: var(--white); }
+
+.actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  animation: fadeUp 0.8s ease 0.45s both;
+}
+
+.countdownWrap {
+  position: relative;
+  z-index: 2;
+  margin-top: 64px;
+  animation: fadeUp 0.8s ease 0.6s both;
+}
+.countdownLabel {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--gray3);
+  letter-spacing: 0.15em;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+}
+.countdown {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cdBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 80px;
+  background: var(--gray1);
+  border: 1px solid var(--gray2);
+  border-radius: var(--radius);
+  padding: 16px 12px 12px;
+}
+.cdBlock span {
+  font-family: var(--font-mono);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1;
+}
+.cdBlock small {
+  font-size: 0.65rem;
+  color: var(--gray3);
+  letter-spacing: 0.1em;
+  margin-top: 6px;
+  text-transform: uppercase;
+}
+.cdSep {
+  font-family: var(--font-mono);
+  font-size: 1.5rem;
+  color: var(--gray2);
+  margin-bottom: 20px;
+}
+
+.scrollArrow {
+  position: absolute;
+  bottom: 32px; left: 50%;
+  transform: translateX(-50%);
+  color: var(--gray3);
+  animation: bounce 2s ease-in-out infinite;
+  z-index: 2;
+}
+.scrollArrow svg { width: 24px; height: 24px; }
+
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .actions { flex-direction: column; align-items: center; }
+  .countdown { flex-wrap: wrap; justify-content: center; }
+  .cdBlock { min-width: 64px; }
+}
+@media (max-width: 480px) {
+  .cdBlock { min-width: 56px; }
+  .cdBlock span { font-size: 1.5rem; }
+}
