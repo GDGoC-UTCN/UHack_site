@@ -38,7 +38,10 @@ export default function FAQ() {
           <h2>{tr.title}</h2>
         </Reveal>
         <div className={styles.list}>
-          {(config.faq ? config.faq.map(item => ({ question: lang==='ro' ? item.questionRO : item.questionEN, answer: lang==='ro' ? item.answerRO : item.answerEN })) : tr.items).map(f => <FAQItem key={f.q} q={f.q} a={f.a} />)}
+          {(config.faq
+            ? config.faq.map(item => ({ q: lang==='ro' ? item.questionRO : item.questionEN, a: lang==='ro' ? item.answerRO : item.answerEN }))
+            : tr.items
+          ).map((f, i) => <FAQItem key={f.q || i} q={f.q} a={f.a} />)}
         </div>
       </div>
     </section>
