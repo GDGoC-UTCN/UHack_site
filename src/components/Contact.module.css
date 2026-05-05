@@ -1,0 +1,156 @@
+.wrap {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* ── side-by-side info + form ── */
+.inner {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 3rem;
+  align-items: start;
+}
+@media (max-width: 700px) {
+  .inner { grid-template-columns: 1fr; }
+}
+
+/* ── info panel ── */
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+.infoItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+.infoIcon {
+  font-size: 1.4rem;
+  margin-top: .1rem;
+  flex-shrink: 0;
+}
+.infoLabel {
+  font-size: .75rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--gray3);
+  margin-bottom: .2rem;
+}
+.infoValue {
+  font-size: .95rem;
+  color: var(--white);
+}
+.infoValue a {
+  color: var(--accent, #a78bfa);
+  text-decoration: none;
+}
+.infoValue a:hover { text-decoration: underline; }
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--gray1);
+  margin: .4rem 0;
+}
+
+/* ── form ── */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+@media (max-width: 480px) {
+  .row { grid-template-columns: 1fr; }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+}
+.field label {
+  font-size: .78rem;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--gray3);
+  font-family: var(--font-mono);
+}
+.field input,
+.field textarea {
+  background: var(--bg2, #111);
+  border: 1px solid var(--gray1);
+  border-radius: 8px;
+  padding: .75rem 1rem;
+  color: var(--white);
+  font-family: var(--font-sans);
+  font-size: .95rem;
+  transition: border-color .25s;
+  resize: none;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+.field input:focus,
+.field textarea:focus {
+  border-color: var(--accent, #a78bfa);
+}
+.field input.err,
+.field textarea.err {
+  border-color: #f87171;
+}
+.errMsg {
+  font-size: .74rem;
+  color: #f87171;
+  margin-top: -.2rem;
+}
+
+/* ── char counter ── */
+.charCount {
+  font-size: .72rem;
+  color: var(--gray3);
+  text-align: right;
+}
+
+/* ── submit btn ── */
+.submitBtn {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .8rem 2rem;
+  background: var(--accent, #a78bfa);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-family: var(--font-sans);
+  font-size: .95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity .2s, transform .15s;
+}
+.submitBtn:hover:not(:disabled) { opacity: .85; transform: translateY(-1px); }
+.submitBtn:disabled { opacity: .55; cursor: not-allowed; }
+
+/* ── success / error banners ── */
+.banner {
+  padding: 1rem 1.2rem;
+  border-radius: 8px;
+  font-size: .92rem;
+  line-height: 1.5;
+}
+.bannerSuccess {
+  background: #052e16;
+  border: 1px solid #16a34a;
+  color: #86efac;
+}
+.bannerError {
+  background: #1f0a0a;
+  border: 1px solid #dc2626;
+  color: #fca5a5;
+}

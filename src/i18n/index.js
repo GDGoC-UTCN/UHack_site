@@ -14,6 +14,7 @@ export const t = {
       parteneri: 'Parteneri',
       echipa:    'Echipă',
       inscrieTE: 'Înscrie-te',
+      contact:   'Contact',
     },
 
     // ── Hero ────────────────────────────────────────────
@@ -248,10 +249,31 @@ export const t = {
       },
     },
 
+    // ── Contact ─────────────────────────────────────────
+    contact: {
+      tag:         '// contact',
+      title:       'Ia legătura cu noi',
+      subtitle:    'Ai întrebări? Scrie-ne și îți răspundem cât mai curând.',
+      name:        'Nume complet',
+      email:       'Adresă de email',
+      subject:     'Subiect',
+      message:     'Mesajul tău',
+      send:        'Trimite mesajul',
+      sending:     'Se trimite…',
+      success:     '✅ Mesaj trimis! Te contactăm în curând.',
+      error:       '❌ Ceva n-a mers. Încearcă din nou sau scrie-ne direct.',
+      namePh:      'Ion Popescu',
+      emailPh:     'ion@example.com',
+      subjectPh:   'Întrebare despre hackathon',
+      messagePh:   'Scrie mesajul tău aici…',
+      orEmail:     'Sau scrie-ne direct la',
+      orDiscord:   'Sau alătură-te pe Discord',
+    },
+
     // ── Footer ──────────────────────────────────────────
     footer: {
       tagline: 'Codul întâlnește fotbalul.',
-      links: ['Despre', 'Program', 'Teme', 'Submit', 'Galerie', 'Parteneri', 'Echipă', 'FAQ'],
+      links: ['Despre', 'Program', 'Teme', 'Submit', 'Galerie', 'Parteneri', 'Echipă', 'FAQ', 'Contact'],
       contact: 'Contact',
       rights:  'Toate drepturile rezervate.',
       madeBy:  'Realizat cu ❤️ de GDGoC UTCN',
@@ -271,6 +293,7 @@ export const t = {
       parteneri: 'Partners',
       echipa:    'Team',
       inscrieTE: 'Register',
+      contact:   'Contact',
     },
 
     hero: {
@@ -494,9 +517,30 @@ export const t = {
       },
     },
 
+    // ── Contact ─────────────────────────────────────────
+    contact: {
+      tag:         '// contact',
+      title:       'Get in touch',
+      subtitle:    'Have questions? Write to us and we\'ll get back to you as soon as possible.',
+      name:        'Full name',
+      email:       'Email address',
+      subject:     'Subject',
+      message:     'Your message',
+      send:        'Send message',
+      sending:     'Sending…',
+      success:     '✅ Message sent! We\'ll be in touch soon.',
+      error:       '❌ Something went wrong. Try again or email us directly.',
+      namePh:      'John Doe',
+      emailPh:     'john@example.com',
+      subjectPh:   'Question about the hackathon',
+      messagePh:   'Write your message here…',
+      orEmail:     'Or email us directly at',
+      orDiscord:   'Or join us on Discord',
+    },
+
     footer: {
       tagline: 'Where code meets football.',
-      links: ['About', 'Schedule', 'Themes', 'Submit', 'Gallery', 'Partners', 'Team', 'FAQ'],
+      links: ['About', 'Schedule', 'Themes', 'Submit', 'Gallery', 'Partners', 'Team', 'FAQ', 'Contact'],
       contact: 'Contact',
       rights:  'All rights reserved.',
       madeBy:  'Made with ❤️ by GDGoC UTCN',

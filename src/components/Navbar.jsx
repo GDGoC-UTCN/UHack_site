@@ -17,6 +17,7 @@ export default function Navbar() {
     { href: '#galerie',   label: tr.galerie },
     { href: '#parteneri', label: tr.parteneri },
     { href: '#echipa',    label: tr.echipa },
+    { href: '#contact',   label: t[lang].nav?.contact || 'Contact' },
   ]
 
   useEffect(() => {

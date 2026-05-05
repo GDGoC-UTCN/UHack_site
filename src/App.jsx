@@ -16,6 +16,7 @@ import Gallery from './components/Gallery'
 import Partners from './components/Partners'
 import Team from './components/Team'
 import FAQ from './components/FAQ'
+import Contact from './components/Contact'
 import Register from './components/Register'
 import Footer from './components/Footer'
 
@@ -59,6 +60,7 @@ export default function App() {
               <Partners />
               <Team />
               <FAQ />
+              <Contact />
               <Register />
               <Footer />
 
