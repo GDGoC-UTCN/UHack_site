@@ -161,4 +161,30 @@ export const DEFAULT_CONFIG = {
     { id: 'p2', place: '🥈 2nd Place', valueRO: 'TBA', valueEN: 'TBA', descRO: '', descEN: '' },
     { id: 'p3', place: '🥉 3rd Place', valueRO: 'TBA', valueEN: 'TBA', descRO: '', descEN: '' },
   ],
+
+  // ── Users, Teams, Mentors, Bookings ─────────────────────────
+  // Simple in-browser user store: teams, mentors, judges, admins
+  users: [
+    { id: 'u1', email: 'team1@example.com', password: 'team1pass', role: 'team', teamId: 'team1', name: 'Team One' },
+    { id: 'm1', email: 'mentor1@example.com', password: 'mentor1pass', role: 'mentor', mentorId: 'mentor1', name: 'Gabriel Preda' },
+    { id: 'j1', email: 'judge1@example.com', password: 'judge1pass', role: 'judge', name: 'Juriu 1' },
+  ],
+
+  teams: [
+    { id: 'team1', name: 'Blue Rockets', members: [{ name: 'Ana', email: 'ana@example.com' }], themeId: null, documents: [], messages: [] },
+  ],
+
+  mentors: [
+    { id: 'mentor1', name: 'Gabriel Preda', expertise: ['AI','Agents'], slots: [ '2026-04-25T12:00', '2026-04-25T15:00' ] },
+    { id: 'mentor2', name: 'Sasha Denisov', expertise: ['Firebase','ML'], slots: [ '2026-04-25T13:00', '2026-04-25T16:00' ] },
+  ],
+
+  bookings: [
+    // { id: 'b1', teamId: 'team1', mentorId: 'mentor1', slot: '2026-04-25T12:00', note: '' }
+  ],
+
+  // Documents that can be attached to team dashboards (rules, templates)
+  documents: [
+    { id: 'd1', title: 'Regulament', url: '/assets/docs/regulament.pdf' },
+  ],
 }

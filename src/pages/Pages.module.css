@@ -1,0 +1,12 @@
+.pageWrap {
+  min-height: 80vh; display:flex; align-items:center; justify-content:center; padding:2rem;
+}
+.card { background:#0f0f0f; border:1px solid #222; padding:2rem; border-radius:10px; width:360px; color:#f5f5f5 }
+.card input { width:100%; padding:.6rem; margin:.5rem 0; background:#121212; border:1px solid #222; color:#fff }
+.card button { width:100%; padding:.6rem; margin-top:.5rem; background:#a78bfa; border:none; color:#000; font-weight:700 }
+.err { color:#f87171; margin-top:.5rem }
+
+.dashboardWrap { display:flex; gap:1.2rem; padding:1rem }
+.dashSidebar { width:220px; background:#0d0d0d; padding:1rem; border-right:1px solid #222 }
+.dashContent { flex:1; padding:1rem }
+.smallCard { background:#101010; border:1px solid #222; padding:1rem; border-radius:8px; margin-bottom:.8rem }
