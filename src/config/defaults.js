@@ -171,16 +171,50 @@ export const DEFAULT_CONFIG = {
   ],
 
   teams: [
-    { id: 'team1', name: 'Blue Rockets', members: [{ name: 'Ana', email: 'ana@example.com' }], themeId: null, documents: [], messages: [] },
+    {
+      id: 'team1',
+      name: 'Blue Rockets',
+      members: [{ name: 'Ana', email: 'ana@example.com' }],
+      themeId: null,
+      tableLocation: 'Table 3 – Floor 2',
+      documents: [],
+      messages: [],
+    },
   ],
 
   mentors: [
-    { id: 'mentor1', name: 'Gabriel Preda', expertise: ['AI','Agents'], slots: [ '2026-04-25T12:00', '2026-04-25T15:00' ] },
-    { id: 'mentor2', name: 'Sasha Denisov', expertise: ['Firebase','ML'], slots: [ '2026-04-25T13:00', '2026-04-25T16:00' ] },
+    {
+      id: 'mentor1', name: 'Gabriel Preda',
+      bio: 'Google Developer Expert in ML & AI Agents. Loves football data.',
+      expertise: ['AI', 'Agents', 'ADK'],
+      linkedin: 'https://linkedin.com/in/gabrielpreda',
+      photo: '',
+      slots: [
+        { id: 'sl1', datetime: '2026-04-25T12:00', durationMin: 30 },
+        { id: 'sl2', datetime: '2026-04-25T15:00', durationMin: 30 },
+      ],
+    },
+    {
+      id: 'mentor2', name: 'Sasha Denisov',
+      bio: 'Firebase & ML specialist. Building production AI apps since 2018.',
+      expertise: ['Firebase', 'ML', 'Genkit'],
+      linkedin: 'https://linkedin.com/in/sasha',
+      photo: '',
+      slots: [
+        { id: 'sl3', datetime: '2026-04-25T13:00', durationMin: 30 },
+        { id: 'sl4', datetime: '2026-04-25T16:00', durationMin: 30 },
+      ],
+    },
   ],
 
   bookings: [
-    // { id: 'b1', teamId: 'team1', mentorId: 'mentor1', slot: '2026-04-25T12:00', note: '' }
+    // { id: 'b1', teamId: 'team1', mentorId: 'mentor1', slotId: 'sl1', note: '' }
+  ],
+
+  // ── Chat messages ─────────────────────────────────
+  // roomId = `${teamId}__${mentorId}`
+  chatMessages: [
+    // { id: 'm1', roomId: 'team1__mentor1', senderName: 'Ana', text: 'Hello!', ts: 1714000000000 }
   ],
 
   // Documents that can be attached to team dashboards (rules, templates)

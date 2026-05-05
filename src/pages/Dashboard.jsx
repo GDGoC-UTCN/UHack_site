@@ -1,71 +1,220 @@
-import React from 'react'
+import { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useConfig } from '../context/ConfigContext'
-import styles from './Pages.module.css'
-import TeamSelector from '../components/TeamSelector'
-import MentorBooking from '../components/MentorBooking'
+import MentorProfileEditor from '../components/MentorProfileEditor'
+import MentorSlotsEditor from '../components/MentorSlotsEditor'
+import MentorBookingsView from '../components/MentorBookingsView'
+import TeamBookingPanel from '../components/TeamBookingPanel'
+import Chat from '../components/Chat'
+import s from './Dashboard.module.css'
 
-export default function Dashboard() {
-  const { user, logout } = useAuth()
+// ── Theme picker for teams ────────────────────────────────────────────────────
+function ThemePicker({ team, onSave }) {
   const { config, updateSection } = useConfig()
+  const themes = config.themes || []
+  const [selected, setSelected] = useState(team?.themeId || null)
+  const { lang } = { lang: 'ro' }  // default to RO; could be wired to AppContext
 
-  if (!user) return <div style={{ padding: '2rem' }}>Not logged in. <a href="#login">Login</a></div>
-
-  const team = config.teams.find(t => t.id === user.teamId)
+  const save = () => {
+    const updated = (config.teams || []).map(t => t.id === team.id ? { ...t, themeId: selected } : t)
+    updateSection('teams', updated)
+    if (onSave) onSave()
+  }
 
   return (
     <div>
-      <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'1rem' }}>
-        <h2>Dashboard — {user.name || user.email}</h2>
-        <div>
-          <button onClick={() => window.location.hash = '#'} style={{ marginRight: '1rem' }}>Back</button>
-          <button onClick={logout}>Logout</button>
+      <div className={s.themeGrid}>
+        {themes.map(th => (
+          <div
+            key={th.id}
+            className={`${s.themeCard} ${selected === th.id ? s.themeCardActive : ''}`}
+            style={{ borderColor: selected === th.id ? (th.color || '#a78bfa') : '#222' }}
+            onClick={() => setSelected(th.id)}
+          >
+            <div className={s.themeIcon}>{th.icon}</div>
+            <div className={s.themeTitle} style={{ color: th.color || '#a78bfa' }}>{th.titleRO}</div>
+            <div className={s.themeTagline}>{th.taglineRO}</div>
+          </div>
+        ))}
+      </div>
+      {selected && (
+        <button className={`${s.btn} ${s.btnPrimary}`} style={{ marginTop:'1rem' }} onClick={save}>
+          Confirm Theme Selection
+        </button>
+      )}
+    </div>
+  )
+}
+
+// ── Docs tab ──────────────────────────────────────────────────────────────────
+function DocsTab() {
+  const { config } = useConfig()
+  return (
+    <div>
+      {(config.documents || []).length === 0 && <div style={{ color:'#555' }}>No documents uploaded yet.</div>}
+      {(config.documents || []).map(d => (
+        <div key={d.id} className={s.docRow}>
+          <span>📄</span>
+          <a href={d.url} target="_blank" rel="noopener noreferrer">{d.title}</a>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+// ── Overview tab for teams ─────────────────────────────────────────────────────
+function TeamOverview({ team }) {
+  const { config } = useConfig()
+  const theme = team?.themeId ? (config.themes || []).find(t => t.id === team.themeId) : null
+  return (
+    <div className={s.card}>
+      <div className={s.grid2}>
+        <div className={s.field}>
+          <label>Team name</label>
+          <div>{team?.name || '—'}</div>
+        </div>
+        <div className={s.field}>
+          <label>Table / Location</label>
+          <div style={{ color:'#a78bfa' }}>{team?.tableLocation || '—'}</div>
+        </div>
+        <div className={s.field}>
+          <label>Selected theme</label>
+          <div>
+            {theme
+              ? <span>{theme.icon} {theme.titleRO}</span>
+              : <span style={{ color:'#555' }}>Not selected yet</span>
+            }
+          </div>
+        </div>
+        <div className={s.field}>
+          <label>Members</label>
+          <div>{(team?.members || []).map(m => m.name).join(', ') || '—'}</div>
         </div>
       </div>
+    </div>
+  )
+}
 
-      <div className={styles.dashboardWrap}>
-        <aside className={styles.dashSidebar}>
-          <div className={styles.smallCard}><strong>Role</strong><div>{user.role}</div></div>
-          {user.role === 'team' && (
-            <div className={styles.smallCard}>
-              <strong>Team</strong>
-              <div>{team ? team.name : 'No team'}</div>
+// ── Main Dashboard ─────────────────────────────────────────────────────────────
+export default function Dashboard() {
+  const { user, logout } = useAuth()
+  const { config } = useConfig()
+  const [tab, setTab] = useState(null)
+
+  if (!user) {
+    return (
+      <div style={{ padding:'3rem', textAlign:'center', color:'#888' }}>
+        Not logged in. <a href="#login" style={{ color:'#a78bfa' }}>Go to Login</a>
+      </div>
+    )
+  }
+
+  const team = user.teamId ? (config.teams || []).find(t => t.id === user.teamId) : null
+  const isMentor = user.role === 'mentor'
+  const isTeam   = user.role === 'team'
+  const isJudge  = user.role === 'judge'
+
+  // Chat rooms for this user
+  const chatRooms = isTeam
+    ? (config.bookings || []).filter(b => b.teamId === user.teamId).map(b => ({ id:`${b.teamId}__${b.mentorId}`, teamId: b.teamId, mentorId: b.mentorId }))
+    : isMentor
+    ? (config.bookings || []).filter(b => b.mentorId === user.mentorId).map(b => ({ id:`${b.teamId}__${b.mentorId}`, teamId: b.teamId, mentorId: b.mentorId }))
+    : []
+
+  const mentorTabs = [
+    { key: 'profile',   label: '👤 Profile' },
+    { key: 'slots',     label: '��️  Availability' },
+    { key: 'bookings',  label: '📋 Bookings' },
+    { key: 'chat',      label: '💬 Chat' },
+  ]
+  const teamTabs = [
+    { key: 'overview',  label: '🏠 Overview' },
+    { key: 'theme',     label: '🎯 Choose Theme' },
+    { key: 'book',      label: '👨‍🏫 Book Mentor' },
+    { key: 'chat',      label: '💬 Chat' },
+    { key: 'docs',      label: '📁 Documents' },
+  ]
+  const judgeTabs = [
+    { key: 'overview',  label: '📊 Overview' },
+    { key: 'docs',      label: '📁 Documents' },
+  ]
+
+  const tabs    = isMentor ? mentorTabs : isTeam ? teamTabs : isJudge ? judgeTabs : []
+  const activeTab = tab || (tabs[0]?.key || '')
+  const mentorId = isMentor ? user.mentorId : null
+
+  return (
+    <div className={s.wrap}>
+      {/* Header */}
+      <div className={s.header}>
+        <h2>
+          {isMentor && '🧑‍💻 '}
+          {isTeam   && '🚀 '}
+          {isJudge  && '⚖️ '}
+          {user.name || user.email}
+          <span style={{ marginLeft:'.6rem', color:'#555', fontWeight:400, fontSize:'.85rem' }}>({user.role})</span>
+        </h2>
+        <button className={s.headerBtn} onClick={() => { window.location.hash = '' }}>← Site</button>
+        <button className={s.headerBtn} onClick={logout}>Logout</button>
+      </div>
+
+      <div className={s.body}>
+        {/* Sidebar */}
+        <nav className={s.sidebar}>
+          {tabs.map(t => (
+            <button key={t.key} className={`${s.tab} ${activeTab === t.key ? s.tabActive : ''}`} onClick={() => setTab(t.key)}>
+              {t.label}
+            </button>
+          ))}
+        </nav>
+
+        {/* Content */}
+        <main className={s.content}>
+          {/* ── Mentor tabs ── */}
+          {isMentor && activeTab === 'profile'  && (
+            <><div className={s.sectionTitle}>Your Profile</div><MentorProfileEditor mentorId={user.mentorId} /></>
+          )}
+          {isMentor && activeTab === 'slots'    && (
+            <><div className={s.sectionTitle}>Availability Slots</div><MentorSlotsEditor mentorId={user.mentorId} /></>
+          )}
+          {isMentor && activeTab === 'bookings' && (
+            <><div className={s.sectionTitle}>Incoming Bookings</div><MentorBookingsView mentorId={user.mentorId} /></>
+          )}
+          {isMentor && activeTab === 'chat' && (
+            <><div className={s.sectionTitle}>Messages</div><Chat rooms={chatRooms} /></>
+          )}
+
+          {/* ── Team tabs ── */}
+          {isTeam && activeTab === 'overview' && (
+            <><div className={s.sectionTitle}>Your Team</div><TeamOverview team={team} /></>
+          )}
+          {isTeam && activeTab === 'theme' && (
+            <><div className={s.sectionTitle}>Choose your theme</div><ThemePicker team={team} /></>
+          )}
+          {isTeam && activeTab === 'book' && (
+            <><div className={s.sectionTitle}>Book a Mentor</div><TeamBookingPanel teamId={user.teamId} /></>
+          )}
+          {isTeam && activeTab === 'chat' && (
+            <>
+              <div className={s.sectionTitle}>Messages</div>
+              {chatRooms.length === 0
+                ? <div style={{ color:'#555' }}>Book a mentor first to unlock chat with them.</div>
+                : <Chat rooms={chatRooms} />
+              }
+            </>
+          )}
+          {isTeam && activeTab === 'docs' && (
+            <><div className={s.sectionTitle}>Documents</div><DocsTab /></>
+          )}
+
+          {/* ── Judge tabs ── */}
+          {isJudge && activeTab === 'overview' && (
+            <div className={s.card}>
+              <p>Welcome, {user.name}. Submission scoring sheets and team presentations will be linked here.</p>
             </div>
           )}
-          <div className={styles.smallCard}><strong>Documents</strong>
-            <ul>
-              {(config.documents || []).map(d => <li key={d.id}><a href={d.url} target="_blank">{d.title}</a></li>)}
-            </ul>
-          </div>
-        </aside>
-
-        <main className={styles.dashContent}>
-          {user.role === 'team' && (
-            <>
-              <h3>Your team</h3>
-              <TeamSelector team={team} onChange={t => updateSection('teams', (config.teams || []).map(x => x.id === t.id ? t : x))} />
-              <h3>Mentor Booking</h3>
-              <MentorBooking team={team} />
-            </>
-          )}
-
-          {user.role === 'mentor' && (
-            <>
-              <h3>Mentor dashboard</h3>
-              <p>Slots and bookings</p>
-              <ul>
-                {(config.bookings || []).filter(b => b.mentorId === user.mentorId).map(b => (
-                  <li key={b.id}>{b.slot} — team {b.teamId} — {b.note}</li>
-                ))}
-              </ul>
-            </>
-          )}
-
-          {user.role === 'judge' && (
-            <>
-              <h3>Jury tools</h3>
-              <p>Access to submissions, scoring sheet, etc.</p>
-            </>
+          {isJudge && activeTab === 'docs' && (
+            <><div className={s.sectionTitle}>Documents</div><DocsTab /></>
           )}
         </main>
       </div>
