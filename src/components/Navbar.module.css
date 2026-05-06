@@ -140,6 +140,29 @@
   padding: 0.3rem 0.5rem;
 }
 
+/* ── Login / Dashboard button ───────────────────────── */
+.loginBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.38rem 1rem;
+  border-radius: var(--radius);
+  border: 1px solid #a78bfa;
+  background: transparent;
+  color: #a78bfa;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  white-space: nowrap;
+  letter-spacing: 0.04em;
+}
+.loginBtn:hover {
+  background: #a78bfa;
+  color: #000;
+}
+
 @media (max-width: 480px) {
   .toggleBtn { padding: 0.25rem 0.45rem; font-size: 0.68rem; }
 }

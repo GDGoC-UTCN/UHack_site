@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useApp } from '../context/AppContext'
+import { useAuth } from '../context/AuthContext'
 import { t } from '../i18n'
 import styles from './Navbar.module.css'
 
 export default function Navbar() {
   const { theme, toggleTheme, lang, toggleLang } = useApp()
+  const { user } = useAuth()
   const tr = t[lang].nav
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
@@ -69,7 +71,7 @@ export default function Navbar() {
           </li>
         </ul>
 
-        {/* Controls: lang + theme + burger */}
+        {/* Controls: lang + theme + login + burger */}
         <div className={styles.controls}>
           {/* Language toggle */}
           <button
@@ -91,6 +93,15 @@ export default function Navbar() {
             title={theme === 'dark' ? 'Light mode' : 'Dark mode'}
           >
             {theme === 'dark' ? '☀️' : '🌙'}
+          </button>
+
+          {/* Login / Dashboard button */}
+          <button
+            className={styles.loginBtn}
+            onClick={() => { window.location.hash = user ? '#dashboard' : '#login' }}
+            title={user ? `Go to dashboard (${user.name || user.email})` : 'Login'}
+          >
+            {user ? `👤 ${user.name?.split(' ')[0] || 'Dashboard'}` : (lang === 'ro' ? 'Intră' : 'Login')}
           </button>
 
           {/* Burger */}

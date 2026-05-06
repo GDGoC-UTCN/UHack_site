@@ -46,6 +46,81 @@ function ThemePicker({ team, onSave }) {
   )
 }
 
+// ── Submission tab for teams ───────────────────────────────────────────────────
+function SubmissionTab() {
+  const { config } = useConfig()
+  const sub = config.submission || {}
+  const deadline = sub.deadlineRO || '26 Aprilie 2026, 12:00'
+  const steps    = sub.stepsRO   || []
+  const rules    = sub.rulesRO   || []
+  const formUrl  = sub.formUrl   || ''
+
+  return (
+    <div>
+      {/* Deadline banner */}
+      <div className={s.card} style={{ display:'flex', alignItems:'center', gap:'1rem', marginBottom:'1rem' }}>
+        <span style={{ fontSize:'2rem' }}>⏱️</span>
+        <div>
+          <div style={{ fontSize:'.72rem', color:'#666', textTransform:'uppercase', letterSpacing:'.07em', marginBottom:'.2rem' }}>Deadline submisie</div>
+          <div style={{ color:'#a78bfa', fontWeight:700, fontSize:'1.15rem', fontFamily:'Space Mono,monospace' }}>{deadline}</div>
+        </div>
+      </div>
+
+      {/* Steps */}
+      {steps.length > 0 && (
+        <div className={s.card}>
+          <div className={s.sectionTitle} style={{ marginBottom:'1.1rem' }}>Pași de urmat</div>
+          {steps.map(step => (
+            <div key={step.num} style={{ display:'flex', gap:'1rem', marginBottom:'.9rem', alignItems:'flex-start' }}>
+              <div style={{ width:30, height:30, borderRadius:'50%', background:'#a78bfa', color:'#000', display:'flex', alignItems:'center', justifyContent:'center', fontWeight:700, fontSize:'.85rem', flexShrink:0 }}>
+                {step.num}
+              </div>
+              <div>
+                <div style={{ fontWeight:600, marginBottom:'.2rem' }}>{step.title}</div>
+                <div style={{ color:'#888', fontSize:'.88rem', lineHeight:1.5 }}>{step.desc}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Repo format + rules */}
+      <div className={s.card}>
+        <div style={{ fontSize:'.75rem', fontWeight:600, color:'#666', textTransform:'uppercase', letterSpacing:'.06em', marginBottom:'.5rem' }}>Format repository</div>
+        <code style={{ display:'block', background:'#0d0d0d', padding:'.55rem .9rem', borderRadius:7, fontFamily:'Space Mono,monospace', color:'#34d399', fontSize:'.88rem', marginBottom:'1.2rem' }}>
+          github.com/&lt;echipa&gt;/uhack-2026
+        </code>
+
+        {rules.length > 0 && (
+          <>
+            <div style={{ fontSize:'.75rem', fontWeight:600, color:'#666', textTransform:'uppercase', letterSpacing:'.06em', marginBottom:'.5rem' }}>Reguli</div>
+            <ul style={{ color:'#888', fontSize:'.88rem', paddingLeft:'1.3rem', lineHeight:1.8, margin:0 }}>
+              {rules.map((r, i) => <li key={i}>{r}</li>)}
+            </ul>
+          </>
+        )}
+      </div>
+
+      {/* Submit CTA */}
+      {formUrl ? (
+        <a
+          href={formUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`${s.btn} ${s.btnPrimary}`}
+          style={{ display:'inline-flex', alignItems:'center', gap:'.5rem', textDecoration:'none', marginTop:'.5rem' }}
+        >
+          📤 Trimite proiectul
+        </a>
+      ) : (
+        <div className={s.card} style={{ color:'#555', fontSize:'.88rem', textAlign:'center' }}>
+          Link-ul de submisie va fi disponibil în curând.
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ── Docs tab ──────────────────────────────────────────────────────────────────
 function DocsTab() {
   const { config } = useConfig()
@@ -131,6 +206,7 @@ export default function Dashboard() {
     { key: 'overview',  label: '🏠 Overview' },
     { key: 'theme',     label: '🎯 Choose Theme' },
     { key: 'book',      label: '👨‍🏫 Book Mentor' },
+    { key: 'submit',    label: '📤 Submit' },
     { key: 'chat',      label: '💬 Chat' },
     { key: 'docs',      label: '📁 Documents' },
   ]
@@ -193,6 +269,9 @@ export default function Dashboard() {
           )}
           {isTeam && activeTab === 'book' && (
             <><div className={s.sectionTitle}>Book a Mentor</div><TeamBookingPanel teamId={user.teamId} /></>
+          )}
+          {isTeam && activeTab === 'submit' && (
+            <><div className={s.sectionTitle}>Code Submission</div><SubmissionTab /></>
           )}
           {isTeam && activeTab === 'chat' && (
             <>

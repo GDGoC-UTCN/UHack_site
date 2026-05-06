@@ -11,7 +11,6 @@ import StatsBar from './components/StatsBar'
 import About from './components/About'
 import Timeline from './components/Timeline'
 import Tracks from './components/Tracks'
-import Submission from './components/Submission'
 import Gallery from './components/Gallery'
 import Partners from './components/Partners'
 import Team from './components/Team'
@@ -55,7 +54,6 @@ export default function App() {
               <About />
               <Timeline />
               <Tracks />
-              <Submission />
               <Gallery />
               <Partners />
               <Team />
