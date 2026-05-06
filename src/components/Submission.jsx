@@ -1,5 +1,6 @@
 import { useScrollReveal } from '../hooks/useScrollReveal'
 import { useApp } from '../context/AppContext'
+import { useConfig } from '../context/ConfigContext'
 import { t } from '../i18n'
 import styles from './Submission.module.css'
 
@@ -10,7 +11,23 @@ function Reveal({ children, className = '' }) {
 
 export default function Submission() {
   const { lang } = useApp()
+  const { config } = useConfig()
   const tr = t[lang].submission
+  const sub = config.submission || {}
+
+  const deadline = lang === 'ro'
+    ? (sub.deadlineRO || tr.deadline)
+    : (sub.deadlineEN || tr.deadline)
+
+  const steps = lang === 'ro'
+    ? (sub.stepsRO || tr.steps)
+    : (sub.stepsEN || tr.steps)
+
+  const rules = lang === 'ro'
+    ? (sub.rulesRO || tr.rules)
+    : (sub.rulesEN || tr.rules)
+
+  const formUrl = sub.formUrl || 'https://forms.gle/placeholder'
 
   return (
     <section className="section section-dark" id="submit">
@@ -19,13 +36,13 @@ export default function Submission() {
           <span className="section-tag">{tr.tag}</span>
           <h2>{tr.title}</h2>
           <p className="section-subtitle">
-            {tr.subtitle} <span className={styles.deadline}>{tr.deadline}</span>
+            {tr.subtitle} <span className={styles.deadline}>{deadline}</span>
           </p>
         </Reveal>
 
         <div className={styles.layout}>
           <Reveal className={styles.steps}>
-            {tr.steps.map((s) => (
+            {steps.map((s) => (
               <div key={s.num} className={styles.step}>
                 <div className={styles.stepNum}>{s.num}</div>
                 <div>
@@ -41,7 +58,7 @@ export default function Submission() {
               <span className={styles.ctaIcon}>⏱️</span>
               <div>
                 <h3>{lang === 'ro' ? 'Deadline Submisie' : 'Submission Deadline'}</h3>
-                <p className={styles.ctaDeadline}>{tr.deadline}</p>
+                <p className={styles.ctaDeadline}>{deadline}</p>
               </div>
             </div>
 
@@ -53,14 +70,14 @@ export default function Submission() {
             <div className={styles.rules}>
               <p>{tr.rulesTitle}</p>
               <ul>
-                {tr.rules.map((rule, i) => (
+                {rules.map((rule, i) => (
                   <li key={i}>{rule}</li>
                 ))}
               </ul>
             </div>
 
             <a
-              href="https://forms.gle/placeholder"
+              href={formUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="btn btn-primary"

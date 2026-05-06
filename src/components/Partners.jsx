@@ -1,5 +1,6 @@
 import { useScrollReveal } from '../hooks/useScrollReveal'
 import { useApp } from '../context/AppContext'
+import { useConfig } from '../context/ConfigContext'
 import { t } from '../i18n'
 import styles from './Partners.module.css'
 
@@ -23,7 +24,14 @@ function PartnerLogo({ src, alt, fallback }) {
 
 export default function Partners() {
   const { lang } = useApp()
+  const { config } = useConfig()
   const tr = t[lang].partners
+  const pt = config.partners || {}
+  const organizers = pt.organizers || []
+  const supporters = pt.supporters || []
+  const sponsors   = pt.sponsors   || []
+  const email = (config.general || {}).emailContact || 'gdgoc.utcn@gmail.com'
+
   return (
     <section className="section" id="parteneri">
       <div className="container">
@@ -32,52 +40,57 @@ export default function Partners() {
           <h2>{tr.title}</h2>
         </Reveal>
 
-        <Reveal className={styles.tier}>
-          <div className={styles.tierLabel}>{tr.tier1}</div>
-          <div className={`${styles.row} ${styles.rowMain}`}>
-            <div className={styles.partnerCard}>
-              <PartnerLogo src="/assets/img/partners/ucluj.png" alt="FC Universitatea Cluj" fallback='FC "U" Cluj' />
-              <p>FC Universitatea Cluj</p>
-            </div>
-            <span className={styles.x}>×</span>
-            <div className={styles.partnerCard}>
-              <PartnerLogo src="/assets/img/partners/gdgoc.png" alt="GDGoC UTCN" fallback="GDGoC UTCN" />
-              <p>GDGoC UTCN</p>
-            </div>
-          </div>
-        </Reveal>
-
-        <Reveal className={styles.tier}>
-          <div className={styles.tierLabel}>{tr.tier2}</div>
-          <div className={styles.row}>
-            <div className={styles.partnerCard}>
-              <PartnerLogo src="/assets/img/partners/ucluj-site.png" alt="ucluj.ro" fallback="ucluj.ro" />
-              <p>ucluj.ro</p>
-            </div>
-            <div className={styles.partnerCard}>
-              <PartnerLogo src="/assets/img/partners/utcn.png" alt="UTCN" fallback="UTCN" />
-              <p>Universitatea Tehnică Cluj-Napoca</p>
-            </div>
-          </div>
-        </Reveal>
-
-        <Reveal className={styles.tier}>
-          <div className={styles.tierLabel}>{tr.tier3}</div>
-          <div className={styles.row}>
-            {['Gold Sponsor', 'Silver Sponsor', 'Bronze Sponsor'].map(s => (
-              <div className={styles.partnerCard} key={s}>
-                <div className={`${styles.logoWrap} ${styles.sponsorSlot}`}>
-                  <div className={styles.fallback}><span>{s}</span></div>
+        {organizers.length > 0 && (
+          <Reveal className={styles.tier}>
+            <div className={styles.tierLabel}>{tr.tier1}</div>
+            <div className={`${styles.row} ${styles.rowMain}`}>
+              {organizers.map((o, i) => (
+                <div className={styles.partnerCard} key={o.id || i}>
+                  <PartnerLogo src={o.logo} alt={o.name} fallback={o.name} />
+                  <p>{o.name}</p>
                 </div>
-                <p>Sponsor</p>
-              </div>
-            ))}
-          </div>
-        </Reveal>
+              ))}
+            </div>
+          </Reveal>
+        )}
+
+        {supporters.length > 0 && (
+          <Reveal className={styles.tier}>
+            <div className={styles.tierLabel}>{tr.tier2}</div>
+            <div className={styles.row}>
+              {supporters.map((s, i) => (
+                <div className={styles.partnerCard} key={s.id || i}>
+                  <PartnerLogo src={s.logo} alt={s.name} fallback={s.name} />
+                  <p>{s.name}</p>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        )}
+
+        {sponsors.length > 0 && (
+          <Reveal className={styles.tier}>
+            <div className={styles.tierLabel}>{tr.tier3}</div>
+            <div className={styles.row}>
+              {sponsors.map((sp, i) => (
+                <div className={styles.partnerCard} key={sp.id || i}>
+                  {sp.logo ? (
+                    <PartnerLogo src={sp.logo} alt={sp.name} fallback={sp.name || sp.tier} />
+                  ) : (
+                    <div className={`${styles.logoWrap} ${styles.sponsorSlot}`}>
+                      <div className={styles.fallback}><span>{sp.tier || 'Sponsor'}</span></div>
+                    </div>
+                  )}
+                  <p>{sp.name || sp.tier || 'Sponsor'}</p>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        )}
 
         <Reveal className={styles.sponsorCta}>
           <p>{tr.sponsorDesc}</p>
-          <a href="mailto:gdgoc.utcn@gmail.com" className="btn btn-outline">{tr.sponsorCta}</a>
+          <a href={`mailto:${email}`} className="btn btn-outline">{tr.sponsorCta}</a>
         </Reveal>
       </div>
     </section>

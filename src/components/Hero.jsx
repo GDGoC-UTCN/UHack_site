@@ -38,7 +38,13 @@ export default function Hero() {
         <p className={styles.desc}>{tr.subtitle}</p>
 
         <div className={styles.actions}>
-          <a href="#inscriere" className="btn btn-primary" onClick={(e) => scrollTo(e, '#inscriere')}>
+          <a
+            href={config.general?.registrationFormUrl || '#inscriere'}
+            className="btn btn-primary"
+            onClick={config.general?.registrationFormUrl ? undefined : (e) => scrollTo(e, '#inscriere')}
+            target={config.general?.registrationFormUrl ? '_blank' : undefined}
+            rel={config.general?.registrationFormUrl ? 'noopener noreferrer' : undefined}
+          >
             {tr.cta1}
           </a>
           <a href="#despre" className="btn btn-outline" onClick={(e) => scrollTo(e, '#despre')}>

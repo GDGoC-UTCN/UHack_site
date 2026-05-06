@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 import { useApp } from '../context/AppContext'
+import { useConfig } from '../context/ConfigContext'
 import { t } from '../i18n'
 import styles from './Register.module.css'
 
@@ -15,7 +16,11 @@ const initialState = {
 
 export default function Register() {
   const { lang } = useApp()
+  const { config } = useConfig()
   const tr = t[lang].register
+  const gen = config.general || {}
+  const registrationOpen = gen.registrationOpen !== false   // default open
+  const formUrl = gen.registrationFormUrl || ''
   const [form, setForm] = useState(initialState)
   const [errors, setErrors] = useState({})
   const [loading, setLoading] = useState(false)
@@ -40,6 +45,11 @@ export default function Register() {
     e.preventDefault()
     const errs = validate()
     if (Object.keys(errs).length) { setErrors(errs); return }
+    if (formUrl) {
+      window.open(formUrl, '_blank', 'noopener noreferrer')
+      setSuccess(true)
+      return
+    }
     setLoading(true)
     await new Promise(r => setTimeout(r, 1500))
     setLoading(false)
@@ -65,7 +75,13 @@ export default function Register() {
         </Reveal>
 
         <Reveal className={styles.wrap}>
-          {success ? (
+          {!registrationOpen ? (
+            <div className={styles.success}>
+              <div className={styles.successIcon}>🔒</div>
+              <h3>{lang === 'ro' ? 'Înscrierile sunt închise' : 'Registration is closed'}</h3>
+              <p>{lang === 'ro' ? 'Perioada de înscriere s-a încheiat. Ne vedem la ediția viitoare!' : 'The registration period has ended. See you at the next edition!'}</p>
+            </div>
+          ) : success ? (
             <div className={styles.success}>
               <div className={styles.successIcon}>✓</div>
               <h3>{tr.successTitle}</h3>
