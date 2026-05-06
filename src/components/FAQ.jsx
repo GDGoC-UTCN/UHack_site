@@ -12,14 +12,13 @@ function Reveal({ children, className = '' }) {
 
 function FAQItem({ q, a }) {
   const [open, setOpen] = useState(false)
-  const ref = useScrollReveal()
   return (
-    <div ref={ref} className={`reveal ${styles.item} ${open ? styles.open : ''}`}>
+    <div className={`${styles.item} ${open ? styles.open : ''}`}>
       <button className={styles.question} onClick={() => setOpen(o => !o)}>
         {q}
         <span className={styles.icon}>{open ? '−' : '+'}</span>
       </button>
-      <div className={styles.answer} style={{ maxHeight: open ? '300px' : '0' }}>
+      <div className={styles.answer} style={{ maxHeight: open ? '600px' : '0' }}>
         <p>{a}</p>
       </div>
     </div>
