@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 import { useConfig } from '../context/ConfigContext'
 import { DEFAULT_CONFIG } from '../config/defaults'
+import ImageUpload from '../components/ImageUpload'
 import s from './AdminPage.module.css'
 
 // ─────────────────────────────────────────────────────
@@ -263,11 +264,16 @@ function PartnerRow({ partner, onChange, onRemove }) {
     <div className={s.listCard}>
       <div className={s.listCardGrid}>
         <Field label="Name" value={partner.name} onChange={v => onChange({ ...partner, name: v })} />
-        <Field label="Logo URL / Path" value={partner.logo} onChange={v => onChange({ ...partner, logo: v })} />
         {partner.tier !== undefined && (
           <SelectField label="Tier" value={partner.tier} onChange={v => onChange({ ...partner, tier: v })} options={['Gold', 'Silver', 'Bronze']} />
         )}
       </div>
+      <ImageUpload
+        label="Logo"
+        value={partner.logo}
+        onChange={v => onChange({ ...partner, logo: v })}
+        shape="rect"
+      />
       <button className={s.btnRemove} onClick={onRemove}>Remove</button>
     </div>
   )
@@ -326,8 +332,13 @@ function TeamTab() {
             <Field label="Name" value={m.name} onChange={v => upd(i, { ...m, name: v })} />
             <Field label="Role" value={m.role} onChange={v => upd(i, { ...m, role: v })} />
             <Field label="Initials" value={m.initials} onChange={v => upd(i, { ...m, initials: v })} />
-            <Field label="Photo URL / Path" value={m.img} onChange={v => upd(i, { ...m, img: v })} />
           </div>
+          <ImageUpload
+            label="Photo"
+            value={m.img}
+            onChange={v => upd(i, { ...m, img: v })}
+            shape="circle"
+          />
           <button className={s.btnRemove} onClick={() => del(i)}>Remove</button>
         </div>
       ))}

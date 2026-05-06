@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useConfig } from '../context/ConfigContext'
+import ImageUpload from './ImageUpload'
 import s from '../pages/Dashboard.module.css'
 
 export default function MentorProfileEditor({ mentorId, onSaved }) {
@@ -44,20 +45,18 @@ export default function MentorProfileEditor({ mentorId, onSaved }) {
           <textarea value={form.bio} onChange={e => setForm(f => ({...f, bio: e.target.value}))} />
         </div>
         <div className={s.field}>
-          <label>Photo URL</label>
-          <input value={form.photo} placeholder="https://..." onChange={e => setForm(f => ({...f, photo: e.target.value}))} />
-        </div>
-        <div className={s.field}>
           <label>Expertise (comma-separated)</label>
           <input value={form.expertise} placeholder="AI, Agents, Firebase" onChange={e => setForm(f => ({...f, expertise: e.target.value}))} />
         </div>
       </div>
 
-      {form.photo && (
-        <div style={{ margin:'.8rem 0' }}>
-          <img src={form.photo} alt="preview" style={{ width:72, height:72, borderRadius:'50%', objectFit:'cover', border:'2px solid #a78bfa' }} />
-        </div>
-      )}
+      <ImageUpload
+        label="Profile Photo"
+        value={form.photo}
+        onChange={v => setForm(f => ({...f, photo: v}))}
+        shape="circle"
+      />
+
       <div className={s.tagRow}>
         {form.expertise.split(',').map(e => e.trim()).filter(Boolean).map(e => <span key={e} className={s.tag}>{e}</span>)}
       </div>
